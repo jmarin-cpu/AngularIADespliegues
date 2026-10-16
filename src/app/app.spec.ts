@@ -14,10 +14,26 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', () => {
+  it('should render the header and responsive learning content', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, proyectoIA2');
+
+    expect(compiled.querySelector('app-header')).not.toBeNull();
+    expect(compiled.querySelector('main#contenido-principal')).not.toBeNull();
+    expect(compiled.querySelectorAll('.topic-card').length).toBe(3);
+  });
+
+  it('should connect the header navigation to sections on the page', () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    const links = compiled.querySelectorAll('app-header nav a');
+
+    links.forEach((link) => {
+      const targetId = link.getAttribute('href')?.slice(1);
+      expect(targetId).toBeTruthy();
+      expect(compiled.querySelector(`#${targetId}`)).not.toBeNull();
+    });
   });
 });
