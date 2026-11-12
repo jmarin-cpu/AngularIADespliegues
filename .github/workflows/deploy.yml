@@ -19,3 +19,24 @@ jobs:
 
       - name: Instalar dependencias
         run: npm install
+
+      - name: Compilar Angular
+        run: npx ng build --base-href /AngularIADespliegues/
+
+      - name: Preparar archivos
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/AngularIADespliegues/browser
+
+  deploy:
+    needs: build-angular
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Desplegar aplicación
+        id: deployment
+        uses: actions/deploy-pages@v4
