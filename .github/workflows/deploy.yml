@@ -45,6 +45,7 @@ jobs:
   # ---------- CD: solo cuando el código ya está en main ----------
   deploy:
     needs: build-angular
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     environment:
