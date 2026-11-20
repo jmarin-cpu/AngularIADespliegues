@@ -37,6 +37,7 @@ jobs:
         run: npx ng build --base-href /AngularIADespliegues/
 
       - name: Preparar archivos
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist/proyectoIA2/browser
@@ -44,6 +45,7 @@ jobs:
   # ---------- CD: solo cuando el código ya está en main ----------
   deploy:
     needs: build-angular
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     environment:
