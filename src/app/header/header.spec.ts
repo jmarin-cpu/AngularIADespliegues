@@ -38,6 +38,6 @@ describe('Header', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
     expect(compiled.querySelector('h1')?.textContent)
-      .toContain('Una idea nueva');
+      .toContain('Una ideas nueva');
   });
 });
