@@ -1,6 +1,10 @@
-name: Angular CI
+name: Angular CICD
 on:
   push:
+    branches:
+    - main
+
+  pull_request:
     branches:
     - main
 
@@ -10,6 +14,7 @@ permissions:
   id-token: write
 
 jobs: 
+ # ---------- CI: se ejecuta en cada PR y en cada push a main ----------
   build-angular:
     runs-on: ubuntu-latest 
 
@@ -25,6 +30,9 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
+      - name: Ejecutar tests
+        run: npx ng test --watch=false --browsers=ChromeHeadless
+
       - name: Compilar Angular
         run: npx ng build --base-href /AngularIADespliegues/
 
@@ -33,6 +41,7 @@ jobs:
         with:
           path: dist/proyectoIA2/browser
 
+  # ---------- CD: solo cuando el código ya está en main ----------
   deploy:
     needs: build-angular
     runs-on: ubuntu-latest
